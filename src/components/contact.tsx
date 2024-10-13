@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -19,7 +19,10 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .required("Email is required")
-    .email("Please enter a valid email address"),
+    .matches(
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      "Please enter a valid email address"
+    ),
   subject: yup
     .string()
     .required("Subject is required")
@@ -32,23 +35,35 @@ const schema = yup.object().shape({
 });
 
 function ContactForm() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
-    mode: "onTouched",
+    mode: "onTouched", // Validate on touch
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
+    setIsSubmitted(true);
   };
+
+  if (isSubmitted) {
+    return (
+      <SuccessMessage>
+        <h2>Thank you for contacting us!</h2>
+        <p>
+          Your message has been successfully sent. We will get back to you soon.
+        </p>
+      </SuccessMessage>
+    );
+  }
 
   return (
     <div className="App">
       <FormStyle onSubmit={handleSubmit(onSubmit)} noValidate>
-        {" "}
         <h1>Contact Form</h1>
         <div>
           <label htmlFor="fullName">Full Name</label>
@@ -70,7 +85,7 @@ function ContactForm() {
           <textarea id="body" {...register("body")}></textarea>
           <p>{errors.body?.message}</p>
         </div>
-        <button type="submit">Submit</button>
+        <SubmitButton type="submit">Submit</SubmitButton>
       </FormStyle>
     </div>
   );
@@ -101,23 +116,43 @@ const FormStyle = styled.form`
     }
   }
 
-  button {
-    padding: 10px 20px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    &:hover {
-      background-color: #357abd;
-    }
-  }
-
   p {
     color: red;
     font-size: 12px;
-    margin-top: 0px;
+    margin-top: 3px;
+  }
+`;
+
+const SuccessMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+
+  h2 {
+    color: #28a745;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    color: #333;
+  }
+`;
+
+// SubmitButton styled component, conditional on form validity
+const SubmitButton = styled.button`
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: "not-allowed";
+  font-size: 16px;
+  &:hover {
+    background-color: #218838;
   }
 `;
 
