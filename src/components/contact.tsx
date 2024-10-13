@@ -24,7 +24,6 @@ const schema = yup.object().shape({
     .string()
     .required("Subject is required")
     .min(3, "Subject must be at least 3 characters"),
-
   body: yup
     .string()
     .required("Body is required")
@@ -39,6 +38,7 @@ function ContactForm() {
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
+    mode: "onTouched",
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
@@ -47,38 +47,35 @@ function ContactForm() {
 
   return (
     <div className="App">
-      <FormStyle onSubmit={handleSubmit(onSubmit)}>
+      <FormStyle onSubmit={handleSubmit(onSubmit)} noValidate>
+        {" "}
         <h1>Contact Form</h1>
-
         <div>
           <label htmlFor="fullName">Full Name</label>
           <input type="text" id="fullName" {...register("fullName")} />
           <p>{errors.fullName?.message}</p>
         </div>
-
         <div>
           <label htmlFor="email">Email</label>
           <input type="email" id="email" {...register("email")} />
           <p>{errors.email?.message}</p>
         </div>
-
         <div>
           <label htmlFor="subject">Subject</label>
           <input type="text" id="subject" {...register("subject")} />
           <p>{errors.subject?.message}</p>
         </div>
-
         <div>
           <label htmlFor="body">Body</label>
           <textarea id="body" {...register("body")}></textarea>
           <p>{errors.body?.message}</p>
         </div>
-
         <button type="submit">Submit</button>
       </FormStyle>
     </div>
   );
 }
+
 const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
