@@ -1,15 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import Theme from "./styles/theme";
+import App from "./App";
+// import GlobalStyle from "./styles/globalStyle";
+import "./scss/lazy.scss";
+import GlobalStyle from "./styles/globalStyle";
+// src/index.tsx or src/index.js
+import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Theme>
+      <GlobalStyle />
+      <App />
+    </Theme>
   </React.StrictMode>
 );
 
