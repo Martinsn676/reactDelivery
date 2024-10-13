@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import { ProductProps } from "./product"; // Adjust the path if necessary
+import { ProductProps } from "./product";
 
 interface CartContext {
   cart: ProductProps[];
@@ -13,7 +13,6 @@ export function Cart() {
   const { cart, increaseQuantity, decreaseQuantity } =
     useOutletContext<CartContext>();
 
-  // Calculate total price based on quantities
   const totalPrice = cart.reduce(
     (sum, product) =>
       sum + (product.discountedPrice ?? product.price) * product.quantity,
@@ -60,7 +59,7 @@ export function Cart() {
         </CartItem>
       ))}
       <TotalContainer>
-        <h2>Total Price: {totalPrice.toFixed(2)}kr</h2>
+        <h2>Total Price: {totalPrice.toFixed(2)} kr</h2>
       </TotalContainer>
 
       <CheckoutButton to="/CheckoutConfirmation">
@@ -70,7 +69,6 @@ export function Cart() {
   );
 }
 
-// Styled components for the cart page layout
 const CheckoutButton = styled(Link)`
   text-decoration: none;
   margin: 10px auto;

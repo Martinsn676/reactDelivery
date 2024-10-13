@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Define the interface for the expected props
 export interface ProductProps {
   id: string;
   title: string;
   price: number;
-  discountedPrice?: number; // Optional
+  discountedPrice?: number;
   description: string;
   image: {
     url: string;
@@ -16,13 +15,11 @@ export interface ProductProps {
   tags: string[];
 }
 
-// AddCards function for rendering a product card
 export function AddCards({
   id,
   title,
   price,
   discountedPrice,
-  description,
   image,
   rating,
   tags,
@@ -30,14 +27,10 @@ export function AddCards({
   const linkUrl = `/product/${id}`;
   return (
     <div className="product-card" style={styles.card}>
-      {/* Image */}
-
       <img src={image.url} alt={image.alt || title} style={styles.image} />
 
-      {/* Title */}
       <h2> {title}</h2>
 
-      {/* Price */}
       <div style={styles.priceContainer}>
         {discountedPrice && discountedPrice < price ? (
           <>
@@ -52,13 +45,8 @@ export function AddCards({
         )}
       </div>
 
-      {/* Rating */}
       <div style={styles.rating}>Rating: {rating} / 5</div>
 
-      {/* Description */}
-      {/* <p>{description}</p> */}
-
-      {/* Tags */}
       <div style={styles.tagsContainer}>
         {tags.map((tag, index) => (
           <span key={index} style={styles.tag}>
@@ -73,17 +61,16 @@ export function AddCards({
   );
 }
 
-// Styles object for inline styling
 const styles = {
   card: {
     border: "1px solid #ccc",
     borderRadius: "8px",
     padding: "16px",
     paddingBottom: "65px",
-    // margin: "16px",
+
     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
     fontFamily: "Arial, sans-serif",
-    userSelect: "none" as "none", // This is how you ensure TypeScript compatibility
+    userSelect: "none" as "none",
     position: "relative" as "relative",
   },
 
@@ -104,12 +91,12 @@ const styles = {
     textDecoration: "none",
   },
   image: {
-    display: "block", // Ensure the image is treated as a block element
-    maxWidth: "100%", // Max width so it doesn't stretch beyond the container
+    display: "block",
+    maxWidth: "100%",
     height: "auto",
-    maxHeight: "200px", // Ensure the height is constrained
+    maxHeight: "200px",
     borderRadius: "8px",
-    margin: "0 auto", // Horizontally centers the image
+    margin: "0 auto",
   },
 
   priceContainer: {

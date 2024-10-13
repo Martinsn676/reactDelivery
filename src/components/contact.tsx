@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled from "styled-components";
 
-// Define the form inputs interface
 interface IFormInputs {
   fullName: string;
   email: string;
@@ -12,7 +11,6 @@ interface IFormInputs {
   body: string;
 }
 
-// Define the validation schema using Yup
 const schema = yup.object().shape({
   fullName: yup
     .string()
@@ -35,16 +33,14 @@ const schema = yup.object().shape({
 });
 
 function ContactForm() {
-  // Set up the form using react-hook-form with Yup validation
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInputs>({
-    resolver: yupResolver(schema), // Connect Yup to react-hook-form
+    resolver: yupResolver(schema),
   });
 
-  // Submit handler with typed 'data'
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
   };
@@ -53,50 +49,31 @@ function ContactForm() {
     <div className="App">
       <FormStyle onSubmit={handleSubmit(onSubmit)}>
         <h1>Contact Form</h1>
-        {/* Full Name */}
+
         <div>
           <label htmlFor="fullName">Full Name</label>
-          <input
-            type="text"
-            id="fullName"
-            {...register("fullName")} // Register the input
-          />
-          <p>{errors.fullName?.message}</p> {/* Display validation message */}
+          <input type="text" id="fullName" {...register("fullName")} />
+          <p>{errors.fullName?.message}</p>
         </div>
 
-        {/* Email */}
         <div>
           <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            {...register("email")} // Register the input
-          />
-          <p>{errors.email?.message}</p> {/* Display validation message */}
+          <input type="email" id="email" {...register("email")} />
+          <p>{errors.email?.message}</p>
         </div>
 
-        {/* Subject */}
         <div>
           <label htmlFor="subject">Subject</label>
-          <input
-            type="text"
-            id="subject"
-            {...register("subject")} // Register the input
-          />
-          <p>{errors.subject?.message}</p> {/* Display validation message */}
+          <input type="text" id="subject" {...register("subject")} />
+          <p>{errors.subject?.message}</p>
         </div>
 
-        {/* Body */}
         <div>
           <label htmlFor="body">Body</label>
-          <textarea
-            id="body"
-            {...register("body")} // Register the input
-          ></textarea>
-          <p>{errors.body?.message}</p> {/* Display validation message */}
+          <textarea id="body" {...register("body")}></textarea>
+          <p>{errors.body?.message}</p>
         </div>
 
-        {/* Submit Button */}
         <button type="submit">Submit</button>
       </FormStyle>
     </div>

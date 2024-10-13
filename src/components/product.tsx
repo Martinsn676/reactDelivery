@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
-// Interface for product properties
 export interface ProductProps {
   id: string;
   title: string;
@@ -18,21 +17,18 @@ export interface ProductProps {
   quantity: number;
 }
 
-// Context interface to get cart functions
 interface CartContext {
   addToCart: (product: ProductProps) => void;
 }
 
-// Single product component that fetches product details
 export function Product() {
-  const { id } = useParams<{ id: string }>(); // Get the product ID from the URL parameters
-  const { addToCart } = useOutletContext<CartContext>(); // Get addToCart from context
-  const [product, setProduct] = useState<ProductProps | null>(null); // State to hold the product data
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
-  const [loadingText, setLoadingText] = useState("Loading."); // Dynamic loading text
-  const [error, setError] = useState<string | null>(null); // Error state
+  const { id } = useParams<{ id: string }>();
+  const { addToCart } = useOutletContext<CartContext>();
+  const [product, setProduct] = useState<ProductProps | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingText, setLoadingText] = useState("Loading.");
+  const [error, setError] = useState<string | null>(null);
 
-  // Fetch product data when the component mounts or when the ID changes
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -41,21 +37,20 @@ export function Product() {
         );
         const data = await response.json();
         if (response.ok) {
-          setProduct(data.data); // Set the product data
+          setProduct(data.data);
         } else {
           throw new Error(data.message || "Error fetching product details");
         }
       } catch (error: any) {
-        setError(error.message); // Set error message
+        setError(error.message);
       } finally {
-        setLoading(false); // Stop loading when data is fetched or failed
+        setLoading(false);
       }
     };
 
     fetchProduct();
   }, [id]);
 
-  // Dynamic loading effect
   useEffect(() => {
     const intervalId = setInterval(() => {
       setLoadingText((prev) =>
@@ -75,24 +70,20 @@ export function Product() {
     return <LoadingText>{loadingText}</LoadingText>;
   }
 
-  // If an error occurred, display error message
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // If no product is found, display a message
   if (!product) {
     return <div>Product not found</div>;
   }
 
-  // Function to handle adding product to cart
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product); // Add the product to the cart
+      addToCart(product);
     }
   };
 
-  // Display the product details in a structured layout
   return (
     <ProductPageContainer>
       <ProductImageContainer>
@@ -129,14 +120,12 @@ export function Product() {
           </div>
         </RatingAndTags>
 
-        {/* Add to Cart button */}
         <AddToCartButton onClick={handleAddToCart}>Add to Cart</AddToCartButton>
       </ProductDetails>
     </ProductPageContainer>
   );
 }
 
-// Styled components for the product page layout
 const LoadingText = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
@@ -232,7 +221,6 @@ const RatingAndTags = styled.div`
   }
 `;
 
-// Styled component for Add to Cart button
 const AddToCartButton = styled.button`
   padding: 10px 20px;
   background-color: #28a745;

@@ -33,13 +33,13 @@ export function Footer() {
           <p>Follow us:</p>
           <ul>
             <li>
-              <a href="#">Facebook</a>
+              <Link to="/">Facebook</Link>
             </li>
             <li>
-              <a href="#">Instagram</a>
+              <Link to="/">Instagram</Link>
             </li>
             <li>
-              <a href="#">Twitter</a>
+              <Link to="/">Twitter</Link>
             </li>
           </ul>
         </SocialMedia>
@@ -48,7 +48,6 @@ export function Footer() {
   );
 }
 
-// Styled components for the footer
 const FooterContainer = styled.footer`
   background-color: #333;
   color: white;

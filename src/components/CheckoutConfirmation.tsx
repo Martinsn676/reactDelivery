@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import { ProductProps } from "./product"; // Adjust the path if necessary
+import { ProductProps } from "./product";
 
 interface CartContext {
   cart: ProductProps[];
-  clearCart: () => void; // Add clearCart function to the context
+  clearCart: () => void;
 }
 
 export function CheckoutConfirmation() {
   const { cart, clearCart } = useOutletContext<CartContext>();
   const [localCart, setLocalCart] = useState<ProductProps[]>([]);
 
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const navigate = useNavigate();
 
-  // Calculate total price based on the local cart
   const totalPrice = localCart.reduce(
     (sum, product) =>
       sum + (product.discountedPrice ?? product.price) * product.quantity,
@@ -22,22 +21,20 @@ export function CheckoutConfirmation() {
   );
 
   useEffect(() => {
-    // Store the current cart in local state
     if (cart.length > 0) {
       setLocalCart(cart);
-      clearCart(); // Clear the global cart after setting local cart
+      clearCart();
     }
-  }, [cart, clearCart]); // Run this only when cart is updated
+  }, [cart, clearCart]);
 
-  // Redirect to home only if localCart is empty after it has been set
   useEffect(() => {
     if (cart.length === 0 && localCart.length === 0) {
-      navigate("/"); // Redirect to the homepage if the cart is empty
+      navigate("/");
     }
-  }, [localCart, cart, navigate]); // Include cart and localCart in dependencies
+  }, [localCart, cart, navigate]);
 
   if (!localCart.length) {
-    return <div></div>; // Show dynamic loading text while waiting for cart
+    return <div></div>;
   }
 
   return (
@@ -51,14 +48,14 @@ export function CheckoutConfirmation() {
       {localCart.map((product) => (
         <ProductSummary key={product.id}>
           <p>
-            {product.title} - Quantity: {product.quantity} - Price: $
-            {product.discountedPrice?.toFixed(2) ?? product.price.toFixed(2)}
+            {product.title} - Quantity: {product.quantity} - Price:{" "}
+            {product.discountedPrice?.toFixed(2) ?? product.price.toFixed(2)} kr
           </p>
         </ProductSummary>
       ))}
 
       <TotalPrice>
-        <h2>Total Paid: ${totalPrice.toFixed(2)}</h2>
+        <h2>Total Paid: {totalPrice.toFixed(2)} kr</h2>
       </TotalPrice>
 
       <SuccessMessage>We hope you enjoy your products!</SuccessMessage>
@@ -69,7 +66,6 @@ export function CheckoutConfirmation() {
   );
 }
 
-// Styled components for the confirmation page layout
 const GoToFrontButton = styled(Link)`
   text-decoration: none;
 
