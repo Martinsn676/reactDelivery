@@ -42,7 +42,7 @@ function ContactForm() {
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
-    mode: "onTouched", // Validate on touch
+    mode: "onTouched",
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
@@ -142,7 +142,6 @@ const SuccessMessage = styled.div`
   }
 `;
 
-// SubmitButton styled component, conditional on form validity
 const SubmitButton = styled.button`
   padding: 10px 20px;
   background-color: #28a745;
